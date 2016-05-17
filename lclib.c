@@ -10,8 +10,8 @@ extern char token[80]; /* holds string representation of token */
 extern char token_type; /* contains type of token */
 extern char tok; /* holds the internal representation of token */
 
-enum tok_types {DELIMITER, IDENTIFIER, NUMBER, COMMAND, STRING,
-           QUOTE, VARIABLE, BLOCK, FUNCTION};
+enum tok_types {DELIMITER, IDENTIFIER, NUMBER, KEYWORD, TEMP,
+           STRING, BLOCK};
 /* These are the constants used to call sntx_err() when
    a syntax error occurs.  Add more if you like.
    NOTE: SYNTAX is a generic error message used when
@@ -52,7 +52,7 @@ call_puts(void)
   get_token();
   if(*token!='(') sntx_err(PAREN_EXPECTED);
   get_token();
-  if(token_type!=QUOTE) sntx_err(QUOTE_EXPECTED);
+  if(token_type!=STRING) sntx_err(QUOTE_EXPECTED);
   puts(token);
   get_token();
   if(*token!=')') sntx_err(PAREN_EXPECTED);
@@ -68,7 +68,7 @@ int print(void)
   get_token();
   if(*token!='(')  sntx_err(PAREN_EXPECTED);
   get_token();
-  if(token_type==QUOTE) { /* output a string */
+  if(token_type==STRING) { /* output a string */
     printf("%s ", token);
   }
   else {  /* output a number */
